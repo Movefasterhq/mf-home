@@ -26,7 +26,7 @@ export default function Web() {
               Movefaster is a collection of tools which helps developers to move frictionless.
             </p>
             <Button href="/login" className="mr-3">
-              Get started
+              Get started!
             </Button>
           </div>
         </div>
