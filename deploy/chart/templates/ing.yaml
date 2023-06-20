@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-resource-movefaster
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "backstage-ip"
+    ingress.gcp.kubernetes.io/pre-shared-cert: "movefaster"
+
+spec:
+  rules:
+  - host: movefaster.dev
+    http: 
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: home
+            port:
+              number: 3000
+      - path: /blog
+        pathType: Prefix
+        backend:
+          service:
+            name: blog
+            port:
+              number: 3000              
+
+  - host: backstage.movefaster.dev
+    http: 
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: backstage
+            port:
+              number: 7007
