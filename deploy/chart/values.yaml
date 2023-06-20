@@ -8,7 +8,7 @@ image:
   repository: asia-south1-docker.pkg.dev/spherical-realm-382509/movefaster/home
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "856f0ee"
+  tag: "6c3a055"
 
 imagePullSecrets: []
 nameOverride: ""
