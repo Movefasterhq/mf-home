@@ -1,0 +1,36 @@
+name: Build and push imges to GCP
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-push-gcr:
+    name: Build and push Image to GCP
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: backstage
+      PROJECT_ID: backstage
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
+
+      - uses: google-github-actions/setup-gcloud@v1
+
+      - name: Calculate Short Sha
+        run: |
+          echo "COMMIT_SHA=$(git rev-parse --short ${{ github.sha }})" >> $GITHUB_ENV     
+
+      - name: Configure docker client
+        run: |-
+          gcloud auth configure-docker asia-south1-docker.pkg.dev
+          
+      - name: Build, tag, and push image to GCP
+        run: |
+          docker build . -t asia-south1-docker.pkg.dev/spherical-realm-382509/movefaster/home:$COMMIT_SHA
+          docker push asia-south1-docker.pkg.dev/spherical-realm-382509/movefaster/home:$COMMIT_SHA
